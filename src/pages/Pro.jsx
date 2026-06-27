@@ -3,23 +3,25 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom, Noise, Vignette } from '@react-three/postprocessing';
 import { PerformanceMonitor } from '@react-three/drei';
+import { useLanguage } from '../context/LanguageContext';
 
 const Experience3D = React.lazy(() => import('../components/Experience3D'));
 
 export default function Pro() {
   const shouldReduceMotion = useReducedMotion();
   const [dpr, setDpr] = React.useState(1.5);
+  const { t } = useLanguage();
 
   const fallbackContent = (
     <div className={shouldReduceMotion ? "timeline-container" : "sr-only"}>
-      <h1 className="timeline-header">Parcours Professionnel</h1>
+      <h1 className="timeline-header">{t('Parcours Professionnel', 'Professional Experience')}</h1>
       
       <div className="timeline-item">
         <div className="timeline-dot"></div>
         <div className="timeline-content">
           <h2>OpMobility</h2>
-          <h3>Développeur logiciel en alternance (2024 - 2025)</h3>
-          <p>Contribution à la réduction de 50% du temps de paramétrage UDS. Développement de services en C/C++ et d'un outil de génération de code avec interface graphique en Python.</p>
+          <h3>{t('Développeur logiciel en alternance (2024 - 2025)', 'Software Developer Apprentice (2024 - 2025)')}</h3>
+          <p>{t("Contribution à la réduction de 50% du temps de paramétrage UDS. Développement de services en C/C++ et d'un outil de génération de code avec interface graphique en Python.", "Contributed to a 50% reduction in UDS configuration time. Developed C/C++ services and a GUI code generation tool in Python.")}</p>
         </div>
       </div>
 
@@ -27,8 +29,8 @@ export default function Pro() {
         <div className="timeline-dot"></div>
         <div className="timeline-content">
           <h2>Nexaglobe</h2>
-          <h3>Stagiaire en support IT (2024)</h3>
-          <p>Support et maintien d’une solution de détection d’intrusions basée sur Snort. Centralisation et requêtage des logs en SQL.</p>
+          <h3>{t('Stagiaire en support IT (2024)', 'IT Support Intern (2024)')}</h3>
+          <p>{t("Support et maintien d’une solution de détection d’intrusions basée sur Snort. Centralisation et requêtage des logs en SQL.", "Supported and maintained an intrusion detection solution based on Snort. Centralized and queried logs using SQL.")}</p>
         </div>
       </div>
 
@@ -36,17 +38,17 @@ export default function Pro() {
         <div className="timeline-dot"></div>
         <div className="timeline-content">
           <h2>Soremed</h2>
-          <h3>Stagiaire en développement logiciel IA (2023)</h3>
-          <p>Développement d'une base de données en Java (Hibernate/JPA) et d'un chatbot de support RAG + text-to-SQL interrogeant une base PostgreSQL.</p>
+          <h3>{t('Stagiaire en développement logiciel IA (2023)', 'AI Software Development Intern (2023)')}</h3>
+          <p>{t("Développement d'une base de données en Java (Hibernate/JPA) et d'un chatbot de support RAG + text-to-SQL interrogeant une base PostgreSQL.", "Developed a database in Java (Hibernate/JPA) and a RAG + text-to-SQL support chatbot querying a PostgreSQL database.")}</p>
         </div>
       </div>
 
       <div className="timeline-item">
         <div className="timeline-dot"></div>
         <div className="timeline-content">
-          <h2>Agent IA Personnel</h2>
-          <h3>Interface Conversationnelle (2024)</h3>
-          <p>Conception et déploiement d'un agent autonome avec LangGraph, RAG (ChromaDB), et un modèle LLM open-weight. Conteneurisé sur Google Cloud Run.</p>
+          <h2>{t('Agent IA Personnel', 'Personal AI Agent')}</h2>
+          <h3>{t('Interface Conversationnelle (2024)', 'Conversational Interface (2024)')}</h3>
+          <p>{t("Conception et déploiement d'un agent autonome avec LangGraph, RAG (ChromaDB), et un modèle LLM open-weight. Conteneurisé sur Google Cloud Run.", "Designed and deployed an autonomous agent with LangGraph, RAG (ChromaDB), and an open-weight LLM. Containerized on Google Cloud Run.")}</p>
         </div>
       </div>
     </div>
@@ -63,7 +65,7 @@ export default function Pro() {
     >
       {!shouldReduceMotion && (
         <div className="canvas-container" aria-hidden="true">
-          <Suspense fallback={<div className="loading-state" style={{ padding: '5rem', textAlign: 'center', fontWeight: 'bold' }}>Chargement de l'expérience...</div>}>
+          <Suspense fallback={<div className="loading-state" style={{ padding: '5rem', textAlign: 'center', fontWeight: 'bold' }}>{t("Chargement de l'expérience...", "Loading experience...")}</div>}>
             <Canvas camera={{ position: [0, 0, 5], fov: 60 }} dpr={dpr}>
               <color attach="background" args={['#fafafa']} />
               <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)}>
@@ -78,7 +80,7 @@ export default function Pro() {
           </Suspense>
           
           <div className="scroll-indicator">
-            <p>Scroll pour avancer</p>
+            <p>{t('Scroll pour avancer', 'Scroll to advance')}</p>
             <div className="mouse-icon"></div>
           </div>
         </div>

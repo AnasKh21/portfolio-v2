@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Navigation() {
-  const [lang, setLang] = useState('FR');
-
-  const toggleLang = () => {
-    setLang(prev => prev === 'FR' ? 'EN' : 'FR');
-    // For now, this is just visual as requested, but you can hook this up to i18n later.
-  };
+  const { lang, toggleLang, t } = useLanguage();
 
   return (
     <motion.header 
@@ -25,13 +21,13 @@ export default function Navigation() {
           to="/parcours/pro" 
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
-          Pro
+          {t('Pro', 'Experience')}
         </NavLink>
         <NavLink 
           to="/parcours/academique" 
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
-          Académique
+          {t('Académique', 'Education')}
         </NavLink>
       </nav>
       <div className="nav-socials">
