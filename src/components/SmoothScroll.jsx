@@ -6,6 +6,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }) {
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const lenis = useLenis(ScrollTrigger.update);
 
   useEffect(() => {
@@ -24,7 +28,10 @@ export default function SmoothScroll({ children }) {
   }, [lenis]);
 
   return (
-    <ReactLenis root options={{ lerp: 0.05, smoothTouch: false }}>
+    <ReactLenis
+      root
+      options={{ lerp: 0.1, smoothTouch: false, smoothWheel: !prefersReducedMotion }}
+    >
       {children}
     </ReactLenis>
   );

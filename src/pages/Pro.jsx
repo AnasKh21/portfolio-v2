@@ -1,93 +1,132 @@
-import React, { Suspense } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { EffectComposer, Bloom, Noise, Vignette } from '@react-three/postprocessing';
-import { PerformanceMonitor } from '@react-three/drei';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
+import LogoBadge from '../components/LogoBadge';
+import TechChips from '../components/TechChips';
 
-const Experience3D = React.lazy(() => import('../components/Experience3D'));
+const EXPERIENCES = [
+  {
+    company: 'OpMobility',
+    logo: '/logos/opmobility.png',
+    year: '2024 — 2025',
+    roleFr: 'Développeur logiciel en alternance',
+    roleEn: 'Software Developer Apprentice',
+    fr: "Contribution à la réduction de 50 % du temps de paramétrage UDS. Développement de services en C/C++ et d'un outil de génération de code avec interface graphique en Python.",
+    en: 'Contributed to a 50% reduction in UDS configuration time. Built C/C++ services and a Python GUI code-generation tool.',
+    tags: ['C/C++', 'Python', 'UDS'],
+  },
+  {
+    company: 'Nexaglobe',
+    logo: '/logos/nexaglobe.png',
+    year: '2024',
+    roleFr: 'Stagiaire support IT',
+    roleEn: 'IT Support Intern',
+    fr: "Support et maintien d'une solution de détection d'intrusions basée sur Snort. Centralisation et requêtage des logs en SQL.",
+    en: 'Maintained a Snort-based intrusion detection solution. Centralized and queried logs with SQL.',
+    tags: ['Snort', 'SQL', 'Security'],
+  },
+  {
+    company: 'Soremed',
+    logo: '/logos/soremed.png',
+    year: '2023',
+    roleFr: 'Stagiaire développement logiciel IA',
+    roleEn: 'AI Software Development Intern',
+    fr: "Développement d'une base de données en Java (Hibernate/JPA) et d'un chatbot de support RAG + text-to-SQL interrogeant une base PostgreSQL.",
+    en: 'Built a Java (Hibernate/JPA) database and a RAG + text-to-SQL support chatbot over PostgreSQL.',
+    tags: ['Java', 'RAG', 'PostgreSQL'],
+  },
+];
 
-export default function Pro() {
-  const shouldReduceMotion = useReducedMotion();
-  const [dpr, setDpr] = React.useState(1.5);
-  const { t } = useLanguage();
+const reveal = (reduce) => ({
+  initial: reduce ? false : { opacity: 0, y: 28, clipPath: 'inset(0 0 100% 0)' },
+  whileInView: { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' },
+  viewport: { once: true, margin: '-12% 0px' },
+});
 
-  const fallbackContent = (
-    <div className={shouldReduceMotion ? "timeline-container" : "sr-only"}>
-      <h1 className="timeline-header">{t('Parcours Professionnel', 'Professional Experience')}</h1>
-      
-      <div className="timeline-item">
-        <div className="timeline-dot"></div>
-        <div className="timeline-content">
-          <h2>OpMobility</h2>
-          <h3>{t('Développeur logiciel en alternance (2024 - 2025)', 'Software Developer Apprentice (2024 - 2025)')}</h3>
-          <p>{t("Contribution à la réduction de 50% du temps de paramétrage UDS. Développement de services en C/C++ et d'un outil de génération de code avec interface graphique en Python.", "Contributed to a 50% reduction in UDS configuration time. Developed C/C++ services and a GUI code generation tool in Python.")}</p>
-        </div>
-      </div>
-
-      <div className="timeline-item">
-        <div className="timeline-dot"></div>
-        <div className="timeline-content">
-          <h2>Nexaglobe</h2>
-          <h3>{t('Stagiaire en support IT (2024)', 'IT Support Intern (2024)')}</h3>
-          <p>{t("Support et maintien d’une solution de détection d’intrusions basée sur Snort. Centralisation et requêtage des logs en SQL.", "Supported and maintained an intrusion detection solution based on Snort. Centralized and queried logs using SQL.")}</p>
-        </div>
-      </div>
-
-      <div className="timeline-item">
-        <div className="timeline-dot"></div>
-        <div className="timeline-content">
-          <h2>Soremed</h2>
-          <h3>{t('Stagiaire en développement logiciel IA (2023)', 'AI Software Development Intern (2023)')}</h3>
-          <p>{t("Développement d'une base de données en Java (Hibernate/JPA) et d'un chatbot de support RAG + text-to-SQL interrogeant une base PostgreSQL.", "Developed a database in Java (Hibernate/JPA) and a RAG + text-to-SQL support chatbot querying a PostgreSQL database.")}</p>
-        </div>
-      </div>
-
-      <div className="timeline-item">
-        <div className="timeline-dot"></div>
-        <div className="timeline-content">
-          <h2>{t('Agent IA Personnel', 'Personal AI Agent')}</h2>
-          <h3>{t('Interface Conversationnelle (2024)', 'Conversational Interface (2024)')}</h3>
-          <p>{t("Conception et déploiement d'un agent autonome avec LangGraph, RAG (ChromaDB), et un modèle LLM open-weight. Conteneurisé sur Google Cloud Run.", "Designed and deployed an autonomous agent with LangGraph, RAG (ChromaDB), and an open-weight LLM. Containerized on Google Cloud Run.")}</p>
-        </div>
-      </div>
-    </div>
-  );
+function XpRow({ exp, lang }) {
+  const ref = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const ghostY = useTransform(scrollYProgress, [0, 1], ['18%', '-18%']);
 
   return (
-    <motion.main 
+    <article className="xp-row" ref={ref}>
+      <div className="xp-meta">
+        <LogoBadge src={exp.logo} name={exp.company} />
+        <span className="xp-period">{exp.year}</span>
+      </div>
+
+      <div className="xp-body">
+        <motion.span
+          className="xp-ghost"
+          aria-hidden="true"
+          style={prefersReducedMotion ? undefined : { y: ghostY }}
+        >
+          {exp.company.charAt(0)}
+        </motion.span>
+
+        <motion.h2
+          className="xp-company"
+          {...reveal(prefersReducedMotion)}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {exp.company}
+        </motion.h2>
+
+        <motion.h3
+          className="xp-role"
+          {...reveal(prefersReducedMotion)}
+          transition={{ duration: 0.7, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {lang === 'FR' ? exp.roleFr : exp.roleEn}
+        </motion.h3>
+
+        <motion.p
+          className="xp-desc"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-12% 0px' }}
+          transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {lang === 'FR' ? exp.fr : exp.en}
+        </motion.p>
+
+        <TechChips tags={exp.tags} />
+      </div>
+    </article>
+  );
+}
+
+export default function Pro() {
+  const { t, lang } = useLanguage();
+
+  return (
+    <motion.main
       className="page-pro"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      style={{ height: shouldReduceMotion ? 'auto' : '500vh' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      {!shouldReduceMotion && (
-        <div className="canvas-container" aria-hidden="true">
-          <Suspense fallback={<div className="loading-state" style={{ padding: '5rem', textAlign: 'center', fontWeight: 'bold' }}>{t("Chargement de l'expérience...", "Loading experience...")}</div>}>
-            <Canvas camera={{ position: [0, 0, 5], fov: 60 }} dpr={dpr}>
-              <color attach="background" args={['#fafafa']} />
-              <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)}>
-                <Experience3D />
-                <EffectComposer disableNormalPass>
-                  <Bloom luminanceThreshold={0.8} luminanceSmoothing={0.9} intensity={0.5} mipmapBlur />
-                  <Noise opacity={0.03} />
-                  <Vignette eskil={false} offset={0.1} darkness={0.8} />
-                </EffectComposer>
-              </PerformanceMonitor>
-            </Canvas>
-          </Suspense>
-          
-          <div className="scroll-indicator">
-            <p>{t('Scroll pour avancer', 'Scroll to advance')}</p>
-            <div className="mouse-icon"></div>
-          </div>
-        </div>
-      )}
+      <header className="xp-header">
+        <span className="section-eyebrow">{t('Parcours', 'Journey')}</span>
+        <h1 className="section-title">{t('Expérience', 'Experience')}</h1>
+        <p className="xp-intro">
+          {t(
+            "De l'alternance industrielle aux systèmes d'IA — un parcours guidé par la fiabilité du code.",
+            'From industrial apprenticeship to AI systems — a path driven by reliable engineering.'
+          )}
+        </p>
+      </header>
 
-      {/* 2D Fallback Timeline / Semantic HTML */}
-      {fallbackContent}
+      <div className="xp-list">
+        {EXPERIENCES.map((exp) => (
+          <XpRow key={exp.company} exp={exp} lang={lang} />
+        ))}
+      </div>
     </motion.main>
   );
 }

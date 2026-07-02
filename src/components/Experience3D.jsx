@@ -1,20 +1,27 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Line, Float, Html, Environment } from '@react-three/drei';
+import { Line, Float, Html, Environment, Lightformer } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Define geometries and materials outside the component to save memory/draw calls
+// Define geometries and materials outside the component to save memory/draw calls.
+// Emissive tint guarantees the crystals stay visible even if reflections are weak,
+// so the scene never renders as black blobs (previous network-HDRI failure mode).
 const glassMaterial = new THREE.MeshPhysicalMaterial({
-  color: 0xffffff,
-  transmission: 1, // glass-like
+  color: new THREE.Color('#ff9ebb'),
+  transmission: 0.9,
   opacity: 1,
-  metalness: 0,
+  metalness: 0.2,
   roughness: 0.1,
   ior: 1.5,
-  thickness: 2,
+  thickness: 1.5,
   specularIntensity: 1,
   clearcoat: 1,
-  clearcoatRoughness: 0.1
+  clearcoatRoughness: 0.1,
+  iridescence: 1,
+  iridescenceIOR: 1.3,
+  envMapIntensity: 1.5,
+  emissive: new THREE.Color('#fb6f92'),
+  emissiveIntensity: 0.12,
 });
 
 const nodeGeometry = new THREE.IcosahedronGeometry(0.5, 0); // Abstract crystal shape
@@ -23,6 +30,21 @@ function PathScene() {
   const { camera } = useThree();
   const targetCamPos = useRef(new THREE.Vector3(0, 0, 5));
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
+  // Reused each frame to avoid per-frame allocations (GC pressure / jank).
+  const dummy = useRef(new THREE.Object3D());
+
+  // Cache the scrollable height. Reading scrollHeight forces a synchronous
+  // layout reflow, so we compute it once and refresh only on resize — never
+  // inside the render loop. window.scrollY (read per frame) does not reflow.
+  const docHeight = useRef(0);
+  useEffect(() => {
+    const measure = () => {
+      docHeight.current = document.documentElement.scrollHeight - window.innerHeight;
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
   const curvePoints = useMemo(() => [
     new THREE.Vector3(0, 0, 0),
@@ -43,36 +65,36 @@ function PathScene() {
   ], [curve]);
 
   useFrame((state, delta) => {
-    // Calculate global scroll progress manually (since we removed ScrollControls)
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollProgress = docHeight > 0 ? window.scrollY / docHeight : 0;
-    
-    const offset = Math.max(0, Math.min(scrollProgress, 1));
-    
-    // Smooth camera target calculation
-    const camPos = curve.getPoint(offset);
-    // Add an offset so we aren't inside the path
-    camPos.y += 1; 
-    camPos.z += 3;
-    
-    targetCamPos.current.copy(camPos);
-    
-    const lookAtPos = curve.getPoint(Math.min(offset + 0.1, 1));
-    targetLookAt.current.copy(lookAtPos);
+    const progress = docHeight.current > 0 ? window.scrollY / docHeight.current : 0;
+    const offset = Math.max(0, Math.min(progress, 1));
 
-    // Spring physics / lerping for buttery smooth camera
-    camera.position.lerp(targetCamPos.current, 3 * delta);
-    
-    // To slerp rotation, we create a dummy object
-    const dummy = new THREE.Object3D();
-    dummy.position.copy(camera.position);
-    dummy.lookAt(targetLookAt.current);
-    camera.quaternion.slerp(dummy.quaternion, 3 * delta);
+    // Smooth camera target calculation (write into reused vectors).
+    curve.getPoint(offset, targetCamPos.current);
+    // Add an offset so we aren't inside the path.
+    targetCamPos.current.y += 1;
+    targetCamPos.current.z += 3;
+
+    curve.getPoint(Math.min(offset + 0.1, 1), targetLookAt.current);
+
+    // Framerate-independent exponential smoothing (stable regardless of fps).
+    const alpha = 1 - Math.exp(-3 * delta);
+    camera.position.lerp(targetCamPos.current, alpha);
+
+    // Reused dummy object to derive the look-at rotation, then slerp.
+    dummy.current.position.copy(camera.position);
+    dummy.current.lookAt(targetLookAt.current);
+    camera.quaternion.slerp(dummy.current.quaternion, alpha);
   });
 
   return (
     <>
-      <Environment preset="city" />
+      {/* Self-contained studio environment — no network HDRI fetch */}
+      <Environment resolution={64} frames={1}>
+        <Lightformer intensity={3} color="#ffffff" position={[0, 5, -5]} scale={[12, 12, 1]} />
+        <Lightformer intensity={2.5} color="#fb6f92" position={[-6, 1, 2]} scale={[6, 6, 1]} />
+        <Lightformer intensity={2} color="#7c3aed" position={[6, -1, 2]} scale={[6, 6, 1]} />
+      </Environment>
+      <ambientLight intensity={0.6} />
       <directionalLight position={[10, 20, 5]} intensity={1.5} color="#fb6f92" />
       <directionalLight position={[-10, -20, -5]} intensity={0.5} color="#3a0ca3" />
 

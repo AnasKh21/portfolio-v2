@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../context/LanguageContext';
+import LogoBadge from '../components/LogoBadge';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,7 @@ export default function Academique() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const items = gsap.utils.toArray('.edu-item');
-      items.forEach((item, i) => {
+      items.forEach((item) => {
         gsap.fromTo(item, 
           { opacity: 0, y: 50 },
           {
@@ -39,7 +40,7 @@ export default function Academique() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       ref={containerRef}
     >
       <div className="edu-container">
@@ -51,7 +52,10 @@ export default function Academique() {
           <div className="edu-item">
             <div className="edu-marker"></div>
             <div className="edu-content">
-              <h2>ENSIIE</h2>
+              <div className="edu-head">
+                <LogoBadge src="/logos/ensiie.png" name="ENSIIE" />
+                <h2>ENSIIE</h2>
+              </div>
               <h3>{t('Diplôme d’ingénieur en informatique', 'Master of Engineering in Computer Science')}</h3>
               <span className="edu-date">2022 — 2026</span>
               <p>{t('École nationale supérieure d’informatique pour l’industrie et l’entreprise', 'National School of Computer Science for Industry and Enterprise')}</p>
@@ -61,8 +65,11 @@ export default function Academique() {
           <div className="edu-item">
             <div className="edu-marker"></div>
             <div className="edu-content">
-              <h2>{t('Classes préparatoires', 'Preparatory Classes')}</h2>
-              <h3>{t('Filière scientifique MP*', 'Mathematics and Physics (MP*)')}</h3>
+              <div className="edu-head">
+                <LogoBadge src="/logos/gsr.png" name="Groupe Scolaire La Residence" />
+                <h2>{t('Classes préparatoires', 'Preparatory Classes')}</h2>
+              </div>
+              <h3>{t('Filière scientifique MP* — Groupe Scolaire La Résidence, Casablanca', 'Mathematics and Physics (MP*) — Groupe Scolaire La Résidence, Casablanca')}</h3>
               <span className="edu-date">2020 — 2022</span>
             </div>
           </div>

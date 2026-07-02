@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch / source assets not part of the app
+WhatsApp*
+Capture d*
+osv-cve-explorer/

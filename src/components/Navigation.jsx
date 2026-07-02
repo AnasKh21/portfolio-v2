@@ -17,25 +17,36 @@ export default function Navigation() {
         Anas KHAYAR<span>.</span>
       </NavLink>
       <nav className="nav-links">
-        <NavLink 
-          to="/parcours/pro" 
+        <NavLink
+          to="/parcours/pro"
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
-          {t('Pro', 'Experience')}
+          {t('Expérience', 'Experience')}
         </NavLink>
-        <NavLink 
-          to="/parcours/academique" 
+        <NavLink
+          to="/projets"
+          className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+        >
+          {t('Projets', 'Projects')}
+        </NavLink>
+        <NavLink
+          to="/parcours/academique"
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
           {t('Académique', 'Education')}
         </NavLink>
       </nav>
       <div className="nav-socials">
-        <div className="lang-switch" onClick={toggleLang}>
-          <span className={lang === 'FR' ? 'active' : ''}>FR</span>
-          <span>/</span>
-          <span className={lang === 'EN' ? 'active' : ''}>EN</span>
-        </div>
+        <button
+          type="button"
+          className="lang-switch"
+          onClick={toggleLang}
+          aria-label={lang === 'FR' ? 'Passer en anglais' : 'Switch to French'}
+        >
+          <span className={lang === 'FR' ? 'active' : ''} aria-hidden="true">FR</span>
+          <span aria-hidden="true">/</span>
+          <span className={lang === 'EN' ? 'active' : ''} aria-hidden="true">EN</span>
+        </button>
       </div>
     </motion.header>
   );
