@@ -156,12 +156,6 @@ export default function Projets() {
       <header className="xp-header">
         <span className="section-eyebrow">{t('Sélection', 'Selected work')}</span>
         <h1 className="section-title">{t('Projets', 'Projects')}</h1>
-        <p className="xp-intro">
-          {t(
-            "Des projets qui me représentent — des agents IA / MCP à la sécurité et à l'IoT.",
-            'Projects that represent me — from AI / MCP agents to security and IoT.'
-          )}
-        </p>
         <Magnetic>
           <a className="repo-profile-link" href={GH} target="_blank" rel="noopener noreferrer">
             <GithubIcon size={18} />

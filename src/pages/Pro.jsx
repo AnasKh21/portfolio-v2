@@ -114,12 +114,6 @@ export default function Pro() {
       <header className="xp-header">
         <span className="section-eyebrow">{t('Parcours', 'Journey')}</span>
         <h1 className="section-title">{t('Expérience', 'Experience')}</h1>
-        <p className="xp-intro">
-          {t(
-            "De l'alternance industrielle aux systèmes d'IA — un parcours guidé par la fiabilité du code.",
-            'From industrial apprenticeship to AI systems — a path driven by reliable engineering.'
-          )}
-        </p>
       </header>
 
       <div className="xp-list">
