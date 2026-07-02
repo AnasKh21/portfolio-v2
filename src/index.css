@@ -1437,3 +1437,28 @@ a {
 }
 .tech-ico { width: 18px; height: 18px; object-fit: contain; display: block; }
 .pj-link-spark { color: var(--accent-text); }
+
+/* Education card links (website + location) */
+.edu-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+.edu-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 0.4rem 0.85rem;
+  border-radius: 100px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.edu-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}

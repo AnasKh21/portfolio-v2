@@ -11,8 +11,8 @@ const EXPERIENCES = [
     year: '2024 — 2025',
     roleFr: 'Développeur logiciel en alternance',
     roleEn: 'Software Developer Apprentice',
-    fr: "Contribution à la réduction de 50 % du temps de paramétrage UDS. Développement de services en C/C++ et d'un outil de génération de code avec interface graphique en Python.",
-    en: 'Contributed to a 50% reduction in UDS configuration time. Built C/C++ services and a Python GUI code-generation tool.',
+    fr: "Configurer le diagnostic des véhicules prenait un temps fou, presque tout à la main. J'ai développé un outil qui génère le code tout seul, avec une interface simple à utiliser. Résultat : deux fois moins de temps de paramétrage.",
+    en: "Configuring vehicle diagnostics took forever, almost all by hand. I built a tool that generates the code on its own, with a simple interface. The result: half the setup time.",
     tags: ['C/C++', 'Python', 'UDS'],
   },
   {
@@ -21,8 +21,8 @@ const EXPERIENCES = [
     year: '2024',
     roleFr: 'Stagiaire support IT',
     roleEn: 'IT Support Intern',
-    fr: "Support et maintien d'une solution de détection d'intrusions basée sur Snort. Centralisation et requêtage des logs en SQL.",
-    en: 'Maintained a Snort-based intrusion detection solution. Centralized and queried logs with SQL.',
+    fr: "Comment repérer un intrus sur le réseau avant qu'il fasse des dégâts ? J'ai maintenu un système qui surveille le trafic et lève l'alerte. J'ai aussi centralisé les journaux pour analyser les menaces plus vite.",
+    en: "How do you spot an intruder on the network before they do damage? I maintained a system that watches the traffic and raises the alarm. I also centralised the logs to analyse threats faster.",
     tags: ['Snort', 'SQL', 'Security'],
   },
   {
@@ -31,8 +31,8 @@ const EXPERIENCES = [
     year: '2023',
     roleFr: 'Stagiaire développement logiciel IA',
     roleEn: 'AI Software Development Intern',
-    fr: "Développement d'une base de données en Java (Hibernate/JPA) et d'un chatbot de support RAG + text-to-SQL interrogeant une base PostgreSQL.",
-    en: 'Built a Java (Hibernate/JPA) database and a RAG + text-to-SQL support chatbot over PostgreSQL.',
+    fr: "L'équipe support répondait sans cesse aux mêmes questions, avec des infos noyées dans une base de données. J'ai créé un chatbot qui comprend une question posée normalement et va chercher la réponse directement dans la base.",
+    en: "The support team kept answering the same questions, with the answers buried in a database. I built a chatbot that understands a question asked in plain language and fetches the answer straight from the database.",
     tags: ['Java', 'RAG', 'PostgreSQL'],
   },
 ];
