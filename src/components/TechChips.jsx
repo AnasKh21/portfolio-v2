@@ -12,6 +12,7 @@ const TECH = {
   Docker: '/tech/docker.svg',
   'C/C++': '/tech/cplusplus.svg',
   PostgreSQL: '/tech/postgresql.svg',
+  Ethereum: '/tech/ethereum.svg',
 };
 
 export default function TechChips({ tags, className = '' }) {

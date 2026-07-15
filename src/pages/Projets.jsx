@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import Magnetic from '../components/Magnetic';
 import ProjectMedia from '../components/ProjectMedia';
@@ -13,6 +14,7 @@ const LANG_COLOR = {
   Python: '#3572A5',
   Java: '#b07219',
   HTML: '#e34c26',
+  Solidity: '#AA6746',
 };
 
 const PROJECTS = [
@@ -25,6 +27,16 @@ const PROJECTS = [
     en: "A recruiter has a question at 11pm and I'm not around to answer. So I built an assistant that speaks for me. It knows my background and projects, and replies in real time, day and night.",
     tags: ['Python', 'LangGraph', 'RAG', 'ChromaDB', 'Cloud Run'],
     featured: true,
+  },
+  {
+    to: '/projets/blockchain',
+    title: 'Système de vote décentralisé basé sur blockchain',
+    titleEn: 'Decentralized voting system on blockchain',
+    lang: 'Solidity',
+    image: '/projects/blockchain-vote.png',
+    fr: "Un smart contract Solidity qui gère une élection sur Ethereum. Vote direct ou par délégation. Une fois inscrit, un vote ne peut plus être modifié. Le décompte est public et vérifiable par tous.",
+    en: "A Solidity smart contract running an election on Ethereum. Direct or delegated vote. Once recorded, a vote cannot be changed. The tally is public and verifiable by anyone.",
+    tags: ['Solidity', 'Ethereum', 'Smart Contract', 'EVM'],
   },
   {
     slug: 'mcp-agent-gui-for-managing-tools-permissions',
@@ -63,6 +75,16 @@ const GithubIcon = ({ size = 16 }) => (
   </svg>
 );
 
+const DocIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="8" y1="13" x2="16" y2="13" />
+    <line x1="8" y1="17" x2="13" y2="17" />
+  </svg>
+);
+
 function ProjectRow({ p, index, lang, t }) {
   const ref = useRef(null);
   const prefersReducedMotion = useReducedMotion();
@@ -70,8 +92,22 @@ function ProjectRow({ p, index, lang, t }) {
   const ghostY = useTransform(scrollYProgress, [0, 1], ['16%', '-16%']);
   const mediaY = useTransform(scrollYProgress, [0, 1], ['8%', '-8%']);
 
-  const isRepo = !p.link;
-  const url = p.link || `${GH}/${p.slug}`;
+  const internal = !!p.to;
+  const kind = p.kind || (internal ? 'case' : p.link ? 'app' : 'repo');
+  const url = p.to || p.link || `${GH}/${p.slug}`;
+  const title = t(p.title, p.titleEn || p.title);
+
+  const cta = {
+    repo: { icon: <GithubIcon />, label: t('Voir le code', 'View code'), aria: t('voir le code sur GitHub', 'view code on GitHub') },
+    app: { icon: <span className="pj-link-spark" aria-hidden="true">✦</span>, label: t("Ouvrir l'agent", 'Open the agent'), aria: t("ouvrir l'agent en ligne", 'open the live agent') },
+    doc: { icon: <DocIcon />, label: t('Voir la présentation', 'View the slides'), aria: t('ouvrir la présentation en PDF', 'open the slide deck as PDF') },
+    case: { icon: <DocIcon />, label: t('Voir le projet', 'View project'), aria: t("ouvrir l'étude de cas", 'open the case study') },
+  }[kind];
+
+  const LinkTag = internal ? Link : 'a';
+  const linkProps = internal
+    ? { to: url }
+    : { href: url, target: '_blank', rel: 'noopener noreferrer' };
 
   return (
     <article className={`pj-row${index % 2 === 1 ? ' flip' : ''}${p.featured ? ' featured' : ''}`} ref={ref}>
@@ -82,23 +118,21 @@ function ProjectRow({ p, index, lang, t }) {
           animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
           transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <a
+          <LinkTag
             className="pj-media-link"
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${p.title} — ${isRepo ? t('voir le code sur GitHub', 'view code on GitHub') : t("ouvrir l'agent en ligne", 'open the live agent')}`}
+            {...linkProps}
+            aria-label={`${title}. ${cta.aria}`}
           >
             <TiltCard className="pj-tilt" max={8}>
-              <ProjectMedia src={p.image} title={p.title} />
+              <ProjectMedia src={p.image} title={title} />
             </TiltCard>
-          </a>
+          </LinkTag>
         </motion.div>
       </div>
 
       <div className="pj-text-col">
         <motion.span className="pj-ghost" aria-hidden="true" style={prefersReducedMotion ? undefined : { y: ghostY }}>
-          {p.title.charAt(0)}
+          {title.charAt(0)}
         </motion.span>
 
         {p.featured && <span className="pj-featured">★ {t('Projet phare', 'Featured')}</span>}
@@ -116,7 +150,7 @@ function ProjectRow({ p, index, lang, t }) {
           animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)' }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          {p.title}
+          {title}
         </motion.h2>
 
         <motion.p
@@ -131,11 +165,11 @@ function ProjectRow({ p, index, lang, t }) {
         <TechChips tags={p.tags} />
 
         <Magnetic>
-          <a className="pj-link" href={url} target="_blank" rel="noopener noreferrer">
-            {isRepo ? <GithubIcon /> : <span className="pj-link-spark" aria-hidden="true">✦</span>}
-            {isRepo ? t('Voir le code', 'View code') : t("Ouvrir l'agent", 'Open the agent')}
-            <span className="pj-link-arrow" aria-hidden="true">↗</span>
-          </a>
+          <LinkTag className="pj-link" {...linkProps}>
+            {cta.icon}
+            {cta.label}
+            <span className="pj-link-arrow" aria-hidden="true">{internal ? '→' : '↗'}</span>
+          </LinkTag>
         </Magnetic>
       </div>
     </article>

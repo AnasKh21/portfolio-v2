@@ -6,6 +6,7 @@ import Background from './components/Background';
 import Home from './pages/Home';
 import Pro from './pages/Pro';
 import Projets from './pages/Projets';
+import ProjetBlockchain from './pages/ProjetBlockchain';
 import Academique from './pages/Academique';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/parcours/pro" element={<Pro />} />
           <Route path="/projets" element={<Projets />} />
+          <Route path="/projets/blockchain" element={<ProjetBlockchain />} />
           <Route path="/parcours/academique" element={<Academique />} />
         </Routes>
       </AnimatePresence>
