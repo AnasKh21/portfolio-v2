@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Pro from './pages/Pro';
 import Projets from './pages/Projets';
 import ProjetBlockchain from './pages/ProjetBlockchain';
+import ProjetJuggle from './pages/ProjetJuggle';
 import Academique from './pages/Academique';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/parcours/pro" element={<Pro />} />
           <Route path="/projets" element={<Projets />} />
           <Route path="/projets/blockchain" element={<ProjetBlockchain />} />
+          <Route path="/projets/juggle" element={<ProjetJuggle />} />
           <Route path="/parcours/academique" element={<Academique />} />
         </Routes>
       </AnimatePresence>

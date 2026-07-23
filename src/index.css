@@ -1492,9 +1492,6 @@ a {
   line-height: 1.05;
 }
 .bc-title-accent {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 600;
   color: var(--accent-text);
 }
 .bc-pitch {
@@ -1552,8 +1549,9 @@ a {
 }
 .bc-index {
   font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-  font-size: 0.9rem;
+  font-size: clamp(1.15rem, 2.4vw, 1.7rem);
   font-weight: 700;
+  line-height: 1;
   color: var(--accent-text);
 }
 .bc-h2 {

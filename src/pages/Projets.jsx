@@ -39,6 +39,16 @@ const PROJECTS = [
     tags: ['Solidity', 'Ethereum', 'Smart Contract', 'EVM'],
   },
   {
+    to: '/projets/juggle',
+    title: 'Compter les jonglages sans entraîner de modèle',
+    titleEn: 'Counting football juggles without training a model',
+    lang: 'Python',
+    image: '/projects/juggle/juggle-card.png',
+    fr: "Compter les jonglages d'une vidéo à la main, c'est long et vite faux. Le ballon étant déjà connu du modèle, aucune image n'a été annotée. Sa hauteur dessine une onde, et chaque sommet est un jonglage. La position des pieds permet de ne garder que les vrais contacts.",
+    en: "Counting juggles by hand on a video is slow and error prone. Since the ball is already known to the model, nothing was labelled. Its height draws a wave, and each crest is one juggle. Foot position keeps only the real contacts.",
+    tags: ['Python', 'YOLOv8', 'OpenCV', 'NumPy'],
+  },
+  {
     slug: 'mcp-agent-gui-for-managing-tools-permissions',
     title: 'MCP Permission Client',
     lang: 'Python',

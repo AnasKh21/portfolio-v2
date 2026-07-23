@@ -13,6 +13,9 @@ const TECH = {
   'C/C++': '/tech/cplusplus.svg',
   PostgreSQL: '/tech/postgresql.svg',
   Ethereum: '/tech/ethereum.svg',
+  OpenCV: '/tech/opencv.svg',
+  PyTorch: '/tech/pytorch.svg',
+  NumPy: '/tech/numpy.svg',
 };
 
 export default function TechChips({ tags, className = '' }) {
