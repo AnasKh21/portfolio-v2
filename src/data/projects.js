@@ -1,0 +1,83 @@
+const GH = 'https://github.com/AnasKh21';
+
+export const PROJECTS = [
+  {
+    id: 'orderbook',
+    category: 'finance',
+    title: 'Low latency order book',
+    to: '/projets/orderbook',
+    fr: "Carnet d'ordres et moteur d'appariement, en C++.",
+    en: 'Limit order book and matching engine, in C++.',
+    tags: ['C++17', 'CMake', 'GoogleTest'],
+  },
+  {
+    id: 'pricing',
+    category: 'finance',
+    title: 'Pricing engine',
+    to: '/projets/pricing',
+    fr: 'Options européennes, arbres et Monte-Carlo.',
+    en: 'European options, trees and Monte-Carlo.',
+    tags: ['Python', 'NumPy', 'SciPy'],
+  },
+  {
+    id: 'vote',
+    category: 'blockchain',
+    title: 'Vote décentralisé',
+    titleEn: 'Decentralized vote',
+    to: '/projets/blockchain',
+    fr: 'Une élection gérée par un smart contract Solidity.',
+    en: 'An election run by a Solidity smart contract.',
+    tags: ['Solidity', 'Ethereum', 'EVM'],
+  },
+  {
+    id: 'agent',
+    category: 'ia',
+    title: 'Agent IA personnel',
+    titleEn: 'Personal AI agent',
+    link: 'https://agent-portfolio-446682453018.europe-west1.run.app',
+    fr: 'Un assistant qui répond à ma place, jour et nuit.',
+    en: 'An assistant that answers for me, day and night.',
+    tags: ['Python', 'LangGraph', 'RAG', 'Cloud Run'],
+  },
+  {
+    id: 'juggle',
+    category: 'ia',
+    title: 'Comptage de jonglages',
+    titleEn: 'Juggle counting',
+    to: '/projets/juggle',
+    fr: 'Détection des sommets sur la hauteur du ballon, sans annotation.',
+    en: 'Peak detection on the ball height, with nothing labelled.',
+    tags: ['Python', 'YOLOv8', 'OpenCV'],
+  },
+  {
+    id: 'mcp',
+    category: 'ia',
+    title: 'MCP Permission Client',
+    link: `${GH}/mcp-agent-gui-for-managing-tools-permissions`,
+    fr: "Une interface qui garde la main sur ce qu'une IA peut toucher.",
+    en: 'An interface that keeps control over what an AI can touch.',
+    tags: ['Python', 'MCP', 'Security'],
+  },
+  {
+    id: 'weather',
+    category: 'embarque',
+    title: 'Station météo Pico 2W',
+    titleEn: 'Pico 2W weather station',
+    link: `${GH}/raspberry-pico2W-weather-station`,
+    fr: 'Température et humidité en direct, sur une puce à quelques euros.',
+    en: 'Live temperature and humidity, on a chip worth a few euros.',
+    tags: ['Python', 'Raspberry Pi', 'IoT'],
+  },
+  {
+    id: 'cve',
+    category: 'autres',
+    title: 'OSV CVE Explorer',
+    link: `${GH}/CVE-EXPLORER`,
+    fr: 'Les failles connues d’une librairie, par nom et version.',
+    en: 'Known flaws in a library, by name and version.',
+    tags: ['React', 'Spring Boot', 'Java'],
+  },
+];
+
+export const countByCategory = (id) =>
+  PROJECTS.filter((p) => p.category === id).length;

@@ -253,7 +253,11 @@ src/pages/ProjetPricing.jsx
 `Experience3D.jsx` est le seul fichier qui importe `three` et `@react-three/*`
 dans tout `src/`. Son retrait permet donc de retirer `@react-three/fiber`,
 `@react-three/drei`, `@react-three/postprocessing`, `three` et `maath` des
-dépendances, soit cinq paquets et la plus grosse partie du bundle.
+dépendances, soit cinq paquets.
+
+Mesuré après coup: le bundle ne bouge pas (568 ko avant comme après). Vite
+écartait déjà ces paquets puisque rien ne les importait. Le gain est sur la
+taille de `node_modules` et la durée d'installation, pas sur le poids du site.
 
 `gsap` et `lenis` restent: ils servent dans `Academique.jsx` et
 `SmoothScroll.jsx`.
