@@ -23,6 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Brainstorming companion session files
+.superpowers/
+
 # Scratch / source assets not part of the app
 WhatsApp*
 Capture d*
