@@ -118,7 +118,7 @@ export default function OrderBookAtmosphere() {
             const i = asks.length - 1 - ri;
             return (
               <div key={`a${l.px.toFixed(2)}`} className={cls('asks', i)}>
-                <span className="atm-depth is-ask" style={{ width: `${(l.cum / max) * 100}%` }} />
+                <span className="atm-depth is-ask" style={{ width: `${(l.cum / max) * 50}%` }} />
                 <span className="atm-sz" />
                 <span className="atm-px">{l.px.toFixed(2)}</span>
                 <span className="atm-sz is-ask">{l.sz}</span>
@@ -134,7 +134,7 @@ export default function OrderBookAtmosphere() {
 
         {bids.map((l, i) => (
           <div key={`b${l.px.toFixed(2)}`} className={cls('bids', i)}>
-            <span className="atm-depth is-bid" style={{ width: `${(l.cum / max) * 100}%` }} />
+            <span className="atm-depth is-bid" style={{ width: `${(l.cum / max) * 50}%` }} />
             <span className="atm-sz is-bid">{l.sz}</span>
             <span className="atm-px">{l.px.toFixed(2)}</span>
             <span className="atm-sz" />

@@ -59,7 +59,7 @@ export default function ProjetPricing() {
           <h1 className="bc-title">Pricing engine</h1>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="bc-lede">
+          <p className="bc-pitch">
             {t(
               'Options européennes, valorisées quatre fois par quatre méthodes différentes, pour voir si elles tombent sur le même prix.',
               'European options, priced four ways by four different methods, to see whether they land on the same number.'
@@ -67,13 +67,13 @@ export default function ProjetPricing() {
           </p>
         </Reveal>
         <Reveal delay={0.16}>
-          <TechChips tags={['Python', 'NumPy', 'SciPy', 'Matplotlib']} />
+          <TechChips tags={['Python', 'NumPy', 'SciPy', 'Matplotlib']} className="bc-hero-chips" />
         </Reveal>
       </header>
 
       <Section n="01" title={t("L'arbre binomial", 'The binomial tree')}>
         <Reveal>
-          <p className="bc-p">
+          <p className="bc-lead">
             {t(
               "Le prix se construit en remontant l'arbre depuis l'échéance. À chaque nœud, la valeur est l'espérance actualisée des deux valeurs suivantes sous la probabilité risque neutre.",
               'The price is built by walking back up the tree from maturity. At each node the value is the discounted expectation of the two values above it, under the risk neutral probability.'
@@ -89,7 +89,7 @@ export default function ProjetPricing() {
 
       <Section n="02" title={t('La couverture', 'The hedge')}>
         <Reveal>
-          <p className="bc-p">
+          <p className="bc-lead">
             {t(
               "À chaque nœud, la stratégie de réplication donne combien d'actif et combien de sans risque détenir pour retrouver la valeur de l'option dans les deux états suivants. C'est ce qui rend le prix autre chose qu'une moyenne.",
               'At each node the replicating strategy gives how much of the asset and how much of the riskless bond to hold in order to match the option value in both next states. That is what makes the price more than an average.'
@@ -100,7 +100,7 @@ export default function ProjetPricing() {
 
       <Section n="03" title={t('Monte-Carlo', 'Monte-Carlo')}>
         <Reveal>
-          <p className="bc-p">
+          <p className="bc-lead">
             {t(
               "On tire des trajectoires, on actualise le payoff, on fait la moyenne. La loi des grands nombres fait le reste.",
               'Draw paths, discount the payoff, take the mean. The law of large numbers does the rest.'
@@ -116,7 +116,7 @@ export default function ProjetPricing() {
 
       <Section n="04" title={t('Est-ce que tout concorde', 'Does it all agree')}>
         <Reveal>
-          <p className="bc-p">
+          <p className="bc-lead">
             {t(
               "Monte-Carlo converge vers la formule fermée de Black-Scholes quand le nombre de tirages augmente. L'arbre converge vers la même valeur quand le nombre de pas augmente. Trois chemins indépendants qui arrivent au même prix, c'est la seule vérification qui vaille.",
               'Monte-Carlo converges to the closed form Black-Scholes value as the number of draws grows. The tree converges to the same value as the number of steps grows. Three independent routes landing on one price is the only check worth having.'
@@ -127,7 +127,7 @@ export default function ProjetPricing() {
 
       <Section n="05" title={t("L'EDP par différences finies", 'The PDE by finite differences')}>
         <Reveal>
-          <p className="bc-p">
+          <p className="bc-lead">
             {t(
               "La même option, résolue cette fois comme une équation aux dérivées partielles, avec trois schémas : explicite, implicite, et Crank-Nicolson. Le schéma explicite est le plus simple et le seul à exploser si le pas de temps est trop grand.",
               'The same option, solved this time as a partial differential equation, with three schemes: explicit, implicit, and Crank-Nicolson. The explicit scheme is the simplest and the only one that blows up if the time step is too large.'

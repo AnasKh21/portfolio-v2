@@ -1715,9 +1715,11 @@ a {
 
 .atm-panel {
   position: absolute;
-  right: 4rem;
+  /* aligned to the same 1100px content box the pages use, so the panel and
+     the project list can never converge as the window narrows */
+  right: calc(max(2rem, (100vw - 1100px) / 2) + 2rem);
   top: 30vh;
-  width: 352px;
+  width: 272px;
   font-variant-numeric: tabular-nums;
   color: var(--text-primary);
 }
@@ -1738,7 +1740,7 @@ a {
 .atm-print-q { color: #a79fad; }
 
 .atm-dom-h {
-  display: grid; grid-template-columns: 1fr 92px 1fr;
+  display: grid; grid-template-columns: 1fr 74px 1fr;
   font-size: .66rem; color: #a79fad;
   padding-bottom: .38rem; border-bottom: 1px solid rgba(43,35,48,.14);
 }
@@ -1747,7 +1749,7 @@ a {
 .atm-dom-h span:nth-child(3) { text-align: left; }
 
 .atm-lvl {
-  display: grid; grid-template-columns: 1fr 92px 1fr;
+  display: grid; grid-template-columns: 1fr 74px 1fr;
   align-items: center; height: 21px; position: relative; font-size: .75rem;
   border-radius: 3px;
 }
@@ -2701,4 +2703,23 @@ a {
   .nav-links { gap: 0.85rem; }
   .nav-link { font-size: 0.72rem; letter-spacing: 0.03em; }
   .lang-switch { font-size: 0.72rem; padding: 0.25rem 0.5rem; }
+}
+
+/* The new case studies stack two lead paragraphs; the older ones never did. */
+.bc-lead + .bc-lead { margin-top: 1.15rem; }
+
+/* ------------------------------------------------------------
+   The atmospheres are background, not foreground. They were
+   competing with the project list for attention and legibility.
+   ------------------------------------------------------------ */
+.atm-panel { opacity: .62; }
+
+/* the trade tape needs room the layout only has on wide screens */
+@media (max-width: 1400px) {
+  .atm-panel-book .atm-tape { display: none; }
+}
+
+/* below this the content box and the panel cannot both fit */
+@media (max-width: 1000px) {
+  .atm-panel { display: none; }
 }
