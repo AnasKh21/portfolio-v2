@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import ParcoursTimeline from '../components/ParcoursTimeline';
+import SkillGrid from '../components/SkillGrid';
 import { SKILL_GROUPS } from '../data/parcours';
 
 export default function Parcours() {
@@ -21,20 +22,7 @@ export default function Parcours() {
 
       <section className="pc-skills">
         <h2>{t('Compétences techniques', 'Technical skills')}</h2>
-        <div className="sk-groups">
-          {SKILL_GROUPS.map((g, gi) => (
-            <section className="sk-group" key={g.en} style={{ '--gi': gi }}>
-              <h4 className="sk-group-name">{t(g.fr, g.en)}</h4>
-              <ul className="sk-list">
-                {g.items.map((item, ii) => (
-                  <li key={item} style={{ '--ii': ii }}>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+        <SkillGrid groups={SKILL_GROUPS} t={t} />
       </section>
     </motion.main>
   );

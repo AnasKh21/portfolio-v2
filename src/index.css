@@ -2876,3 +2876,91 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .viz-slide { transition: none; }
 }
+
+/* ============================================================
+   SKILLS  ·  logos rather than text chips
+   ============================================================ */
+
+.sk-logos {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.05rem .85rem;
+  padding: 0;
+  margin: 1.1rem 0 0;
+}
+.sk-logos li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .45rem;
+  width: 54px;
+  animation: sk-in .55s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(var(--gi, 0) * 110ms + var(--ii, 0) * 55ms);
+}
+
+.sk-tile {
+  width: 52px;
+  height: 52px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, .72);
+  border: 1px solid rgba(43, 35, 48, .1);
+  box-shadow: 0 3px 12px rgba(43, 35, 48, .06);
+  transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), box-shadow .4s ease, border-color .4s ease;
+}
+.sk-tile img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: saturate(.25) opacity(.72);
+  transition: filter .4s ease;
+}
+.sk-glyph {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: .5;
+  transition: opacity .4s ease;
+}
+.sk-glyph path[d^="M64 18"] { fill: var(--accent-text); stroke: none; }
+.sk-initial {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--accent-text);
+  opacity: .55;
+}
+
+.sk-logos li:hover .sk-tile {
+  transform: translateY(-4px) scale(1.06);
+  border-color: rgba(214, 51, 108, .35);
+  box-shadow: 0 12px 26px rgba(43, 35, 48, .13);
+}
+.sk-logos li:hover .sk-tile img { filter: none; }
+.sk-logos li:hover .sk-glyph { opacity: 1; }
+.sk-logos li:hover .sk-name { color: var(--text-primary); }
+
+.sk-name {
+  font-size: .68rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--text-secondary);
+  transition: color .4s ease;
+}
+
+@media (max-width: 720px) {
+  .sk-logos { gap: .9rem 1rem; }
+  .sk-logos li { width: 54px; }
+  .sk-tile { width: 46px; height: 46px; border-radius: 11px; }
+  .sk-tile img { width: 24px; height: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-logos li { animation: none; }
+}
