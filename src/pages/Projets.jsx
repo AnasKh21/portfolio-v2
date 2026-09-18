@@ -1,49 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { CATEGORIES } from '../data/categories';
 import { PROJECTS, countByCategory } from '../data/projects';
 import { useAtmosphere } from '../components/atmosphere/AtmosphereStage';
-
-function ProjectRow({ project, lang, t, index }) {
-  const internal = Boolean(project.to);
-  const Tag = internal ? Link : 'a';
-  const props = internal
-    ? { to: project.to }
-    : { href: project.link, target: '_blank', rel: 'noopener noreferrer' };
-
-  return (
-    <motion.article
-      className="idx-row"
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <Tag className="idx-row-link" {...props}>
-        <h2 className="idx-row-title">
-          {lang === 'FR' ? project.title : project.titleEn || project.title}
-        </h2>
-        <p className="idx-row-desc">{lang === 'FR' ? project.fr : project.en}</p>
-        <span className="idx-row-go" aria-hidden="true">
-          {internal ? t('Voir le projet', 'View project') : t('Ouvrir', 'Open')}
-        </span>
-      </Tag>
-    </motion.article>
-  );
-}
+import Vitrine from '../components/Vitrine';
 
 export default function Projets() {
   const { t, lang } = useLanguage();
   const { setCategory } = useAtmosphere();
   const [active, setActive] = useState('finance');
 
+  // The simulations now live inside the vitrine, so the page keeps only its
+  // ambient wash behind them.
   useEffect(() => {
-    setCategory(active);
+    setCategory(null);
     return () => setCategory(null);
-  }, [active, setCategory]);
+  }, [setCategory]);
 
   const shown = PROJECTS.filter((p) => p.category === active);
+  const category = CATEGORIES.find((c) => c.id === active);
+  const categoryLabel = category ? (lang === 'FR' ? category.fr : category.en) : '';
 
   return (
     <motion.main
@@ -74,11 +51,7 @@ export default function Projets() {
           </ul>
         </nav>
 
-        <div className="idx-list" key={active}>
-          {shown.map((p, i) => (
-            <ProjectRow key={p.id} project={p} lang={lang} t={t} index={i} />
-          ))}
-        </div>
+        <Vitrine key={active} projects={shown} categoryLabel={categoryLabel} />
       </div>
     </motion.main>
   );

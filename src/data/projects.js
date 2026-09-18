@@ -3,6 +3,7 @@ const GH = 'https://github.com/AnasKh21';
 export const PROJECTS = [
   {
     id: 'orderbook',
+    visual: 'sim:orderbook',
     category: 'finance',
     title: 'Low latency order book',
     to: '/projets/orderbook',
@@ -12,6 +13,7 @@ export const PROJECTS = [
   },
   {
     id: 'pricing',
+    visual: 'sim:pricing',
     category: 'finance',
     title: 'Pricing engine',
     to: '/projets/pricing',
@@ -21,6 +23,7 @@ export const PROJECTS = [
   },
   {
     id: 'vote',
+    visual: 'sim:ledger',
     category: 'blockchain',
     title: 'Vote décentralisé',
     titleEn: 'Decentralized vote',
@@ -31,6 +34,7 @@ export const PROJECTS = [
   },
   {
     id: 'agent',
+    visual: '/projects/agent-ia.png',
     category: 'ia',
     title: 'Agent IA personnel',
     titleEn: 'Personal AI agent',
@@ -41,6 +45,7 @@ export const PROJECTS = [
   },
   {
     id: 'juggle',
+    visual: 'sim:detection',
     category: 'ia',
     title: 'Comptage de jonglages',
     titleEn: 'Juggle counting',
@@ -51,6 +56,7 @@ export const PROJECTS = [
   },
   {
     id: 'mcp',
+    visual: '/projects/mcp-agent-gui.png',
     category: 'ia',
     title: 'MCP Permission Client',
     link: `${GH}/mcp-agent-gui-for-managing-tools-permissions`,
@@ -60,6 +66,7 @@ export const PROJECTS = [
   },
   {
     id: 'weather',
+    visual: 'sim:telemetry',
     category: 'embarque',
     title: 'Station météo Pico 2W',
     titleEn: 'Pico 2W weather station',
@@ -70,6 +77,7 @@ export const PROJECTS = [
   },
   {
     id: 'cve',
+    visual: '/projects/CVE-EXPLORER.png',
     category: 'autres',
     title: 'OSV CVE Explorer',
     link: `${GH}/CVE-EXPLORER`,
