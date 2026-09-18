@@ -135,8 +135,8 @@ export default function Home() {
 
         <motion.div className="hero-actions hero-actions-c" variants={revealVariants}>
           <Magnetic>
-            <button onClick={() => navigate('/parcours/pro')} className="btn-primary">
-              {t('Explorer le parcours', 'Explore Experience')}
+            <button onClick={() => navigate('/parcours')} className="btn-primary">
+              {t('Explorer le parcours', 'Explore my journey')}
             </button>
           </Magnetic>
           <Magnetic>

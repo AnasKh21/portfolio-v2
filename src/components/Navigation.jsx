@@ -18,22 +18,16 @@ export default function Navigation() {
       </NavLink>
       <nav className="nav-links">
         <NavLink
-          to="/parcours/pro"
+          to="/parcours"
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
-          {t('Expérience', 'Experience')}
+          {t('Parcours', 'Journey')}
         </NavLink>
         <NavLink
           to="/projets"
           className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
         >
           {t('Projets', 'Projects')}
-        </NavLink>
-        <NavLink
-          to="/parcours/academique"
-          className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-        >
-          {t('Académique', 'Education')}
         </NavLink>
       </nav>
       <div className="nav-socials">

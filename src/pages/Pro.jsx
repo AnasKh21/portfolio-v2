@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import LogoBadge from '../components/LogoBadge';
 import TechChips from '../components/TechChips';
@@ -11,19 +11,14 @@ const EXPERIENCES = [
     year: '2024 — 2025',
     roleFr: 'Développeur logiciel en alternance',
     roleEn: 'Software Developer Apprentice',
-    fr: "Configurer le diagnostic des véhicules prenait un temps fou, presque tout à la main. J'ai développé un outil qui génère le code tout seul, avec une interface simple à utiliser. Résultat : deux fois moins de temps de paramétrage.",
-    en: "Configuring vehicle diagnostics took forever, almost all by hand. I built a tool that generates the code on its own, with a simple interface. The result: half the setup time.",
     tags: ['C/C++', 'Python', 'UDS'],
   },
   {
     company: 'Nexaglobe',
     logo: '/logos/nexaglobe.png',
     year: '2024',
-    roleFr: 'Stagiaire support IT',
-    roleEn: 'IT Support Intern',
-    fr: "Comment repérer un intrus sur le réseau avant qu'il fasse des dégâts ? J'ai maintenu un système qui surveille le trafic et lève l'alerte. J'ai aussi centralisé les journaux pour analyser les menaces plus vite.",
-    en: "How do you spot an intruder on the network before they do damage? I maintained a system that watches the traffic and raises the alarm. I also centralised the logs to analyse threats faster.",
-    tags: ['Snort', 'SQL', 'Security'],
+    roleFr: 'Cloud security & genAI intern',
+    roleEn: 'Cloud security & genAI intern',
   },
   {
     company: 'Soremed',
@@ -31,8 +26,6 @@ const EXPERIENCES = [
     year: '2023',
     roleFr: 'Stagiaire développement logiciel IA',
     roleEn: 'AI Software Development Intern',
-    fr: "L'équipe support répondait sans cesse aux mêmes questions, avec des infos noyées dans une base de données. J'ai créé un chatbot qui comprend une question posée normalement et va chercher la réponse directement dans la base.",
-    en: "The support team kept answering the same questions, with the answers buried in a database. I built a chatbot that understands a question asked in plain language and fetches the answer straight from the database.",
     tags: ['Java', 'RAG', 'PostgreSQL'],
   },
 ];
@@ -84,17 +77,19 @@ function XpRow({ exp, lang }) {
           {lang === 'FR' ? exp.roleFr : exp.roleEn}
         </motion.h3>
 
-        <motion.p
-          className="xp-desc"
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-12% 0px' }}
-          transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {lang === 'FR' ? exp.fr : exp.en}
-        </motion.p>
+        {(exp.fr || exp.en) && (
+          <motion.p
+            className="xp-desc"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-12% 0px' }}
+            transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {lang === 'FR' ? exp.fr : exp.en}
+          </motion.p>
+        )}
 
-        <TechChips tags={exp.tags} />
+        {exp.tags && <TechChips tags={exp.tags} />}
       </div>
     </article>
   );
@@ -102,6 +97,14 @@ function XpRow({ exp, lang }) {
 
 export default function Pro() {
   const { t, lang } = useLanguage();
+  const listRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ['start 70%', 'end 70%'],
+  });
+  const railFill = useSpring(scrollYProgress, { stiffness: 90, damping: 26, restDelta: 0.001 });
 
   return (
     <motion.main
@@ -112,11 +115,17 @@ export default function Pro() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       <header className="xp-header">
-        <span className="section-eyebrow">{t('Parcours', 'Journey')}</span>
         <h1 className="section-title">{t('Expérience', 'Experience')}</h1>
       </header>
 
-      <div className="xp-list">
+      <div className="xp-list" ref={listRef}>
+        <span className="xp-rail" aria-hidden="true">
+          <motion.span
+            className="xp-rail-fill"
+            style={prefersReducedMotion ? { scaleY: 1 } : { scaleY: railFill }}
+          />
+        </span>
+
         {EXPERIENCES.map((exp) => (
           <XpRow key={exp.company} exp={exp} lang={lang} />
         ))}
